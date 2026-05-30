@@ -8,4 +8,6 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("search/", views.search, name="search"),
     path("signup", views.signup, name="signup"),
+    path("login", views.login_user, name="login"),
+    path("carpool-group/<int:group_id>", views.group_details, name="group_details"),
 ]

@@ -1,12 +1,23 @@
 {% extends 'carpool/layout.html' %}
 
-{% block body %}
-    <h1>Hey Parent 👋🏼</h1>
-    <h2>Betterpool is the better way to find carpool opportunities for your kid!</h2>
+{% block title %}Find Carpools - Betterpool{% endblock %}
 
-    <form action="{% url 'carpool:search' %}" method="get">
-        <input type="text" name="neighbourhood" placeholder="Neighbourhood">
-        <input type="submit" value="Find Communities">
+{% block body %}
+<section class="hero-search-container">
+    <div class="hero-header">
+        <h1>Hey Parent 👋🏼</h1>
+        <h2>Betterpool is the better way to find carpool opportunities for your kid.</h2>
+    </div>
+
+    <!-- The action is updated to handle empty/namespace edge cases safely -->
+    <form action="{% url 'carpool:search' %}" method="get" class="search-form">
+        <div class="search-input-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+            </svg>
+            <input type="text" name="neighbourhood" placeholder="Enter your neighborhood or school area..." required>
+        </div>
+        <button type="submit">Find Communities</button>
     </form>
-    
+</section>
 {% endblock %}
