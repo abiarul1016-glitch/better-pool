@@ -9,7 +9,7 @@
         <h2>commutr is the better way to find carpool opportunities for your kid.</h2>
     </div>
 
-    <!-- The action is updated to handle empty/namespace edge cases safely -->
+    <!-- The action is updated to handle empty/namespace edge cases safely
     <form action="{% url 'carpool:search' %}" method="get" class="search-form">
         <div class="search-input-wrapper">
             <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
@@ -18,6 +18,32 @@
             <input type="text" name="neighbourhood" placeholder="Enter your neighborhood or school area..." required>
         </div>
         <button type="submit">Find Communities</button>
+    </form> -->
+
+    <form action="{% url 'carpool:search' %}" method="get" class="search-form">
+        <!-- Unified container for stacked input fields -->
+        <div class="search-fields-group">
+            
+            <!-- Field 1: Neighborhood -->
+            <div class="search-input-wrapper">
+                <span class="field-icon">📍</span>
+                <input type="text" name="neighbourhood" placeholder="Enter your neighborhood (e.g., Downtown)..." value="{{ request.GET.neighbourhood }}">
+            </div>
+            
+            <!-- Separator Line -->
+            <div class="field-separator"></div>
+
+            <!-- Field 2: School -->
+            <div class="search-input-wrapper">
+                <span class="field-icon">🏫</span>
+                <input type="text" name="school" placeholder="Enter school name (e.g., Lincoln High)..." value="{{ request.GET.school }}">
+            </div>
+            
+        </div>
+        
+        <button type="submit">Find Communities</button>
     </form>
+
+
 </section>
 {% endblock %}

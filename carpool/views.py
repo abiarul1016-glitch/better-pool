@@ -43,22 +43,49 @@ def index(request):
 
 
 def search(request):
-    requested_neighbourhood: str = request.GET.get("neighbourhood", "")
+    # requested_neighbourhood: str = request.GET.get("neighbourhood", "")
 
-    if requested_neighbourhood:
-        carpool_groups = CarpoolGroup.objects.filter(
-            driver__neighborhood=requested_neighbourhood
-        )
-    else:
-        carpool_groups = []
+    # if requested_neighbourhood:
+    #     carpool_groups = CarpoolGroup.objects.filter(
+    #         driver__neighborhood=requested_neighbourhood
+    #     )
+    # else:
+    #     carpool_groups = []
 
-    return render(
-        request,
-        "carpool/results.html",
-        {
-            "carpool_groups": carpool_groups,
-        },
-    )
+    # return render(
+    #     request,
+    #     "carpool/results.html",
+    #     {
+    #         "carpool_groups": carpool_groups,
+    #     },
+    # )
+
+    # Grab the parameters sent by the form
+    neighborhood_query = request.GET.get('neighbourhood', '').strip()
+    school_query = request.GET.get('school', '').strip()
+    
+    # Start with all available groups
+    results = CarpoolGroup.objects.all()
+    
+    # Apply neighborhood filter if provided
+    if neighborhood_query:
+        # Traverses the driver relationship to find matching neighborhoods
+        results = results.filter(driver__neighborhood__icontains=neighborhood_query)
+        
+    # Apply school filter if provided
+    if school_query:
+        # Traverses the school relationship to match the name string
+        results = results.filter(school__name__icontains=school_query)
+        
+    # Optimize database hitting by fetching related rows in one single SQL query
+    results = results.select_related('school', 'driver__user').prefetch_related('passengers')
+
+    context = {
+        "carpool_groups": results,
+        "neighborhood_query": neighborhood_query,
+        "school_query": school_query,
+    }
+    return render(request, "carpool/results.html", context)
 
 
 def signup(request):
