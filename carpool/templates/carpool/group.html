@@ -1,0 +1,125 @@
+{% extends 'carpool/layout.html' %}
+
+{% block title %}{{ group.name }} - Betterpool{% endblock %}
+
+{% block body %}
+<div class="detail-container">
+    <!-- Back Header Navigation -->
+    <header class="detail-header">
+        <a href="javascript:history.back()" class="back-link">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Back to results
+        </a>
+    </header>
+
+    <div class="detail-split-layout">
+        <!-- Main Informational Overview Column -->
+        <main class="detail-main-content">
+            <section class="group-hero-meta">
+                <span class="meta-tag">Carpool Community</span>
+                <h1>{{ group.name }}</h1>
+                <div class="destination-badge">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2.5 3 6 3s6-1 6-3v-5"/></svg>
+                    <span>Serving <strong>{{ group.school.name }}</strong></span>
+                </div>
+            </section>
+
+            <!-- Grid Layout of Route Specifics -->
+            <section class="detail-card metrics-grid">
+                <div class="metric-item">
+                    <span class="metric-label">Pickup Window</span>
+                    <span class="metric-value">{{ group.pickup_time|time:"g:i A" }}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Drop-off Target</span>
+                    <span class="metric-value">{{ group.dropoff_time|time:"g:i A" }}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">School Destination</span>
+                    <span class="metric-value location">{{ group.school.address }}, {{ group.school.city }}</span>
+                </div>
+            </section>
+
+            <!-- Active Passenger Rosters -->
+            <section class="passenger-section">
+                <h3>Joined Households ({{ group.passengers.count }})</h3>
+                <div class="passenger-list">
+                    {% for passenger in group.passengers.all %}
+                        <div class="passenger-row-item">
+                            <div class="avatar-placeholder">{{ passenger.user.first_name|slice:":1" }}</div>
+                            <div class="passenger-info">
+                                <p class="parent-name">{{ passenger.user.first_name }} {{ passenger.user.last_name }}</p>
+                                <p class="child-meta">
+                                    Children: 
+                                    {% for child in passenger.children.all %}
+                                        <!-- Filtering for children assigned to this specific school path -->
+                                        {% if child.school == group.school %}
+                                            <strong>{{ child.first_name }}</strong> (Age {{ child.age }}){% if not forloop.last %}, {% endif %}
+                                        {% endif %}
+                                    {% empty %}
+                                        No children listed
+                                    {% endfor %}
+                                </p>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="empty-roster-text">No neighbor families have attached to this timeline setup yet.</p>
+                    {% endfor %}
+                </div>
+            </section>
+        </main>
+
+        <!-- Right Hand Column Sidebar: Action Callouts & Driver Profiles -->
+        <aside class="detail-sidebar">
+            <!-- Driver Profile Spotlight -->
+            <div class="detail-card driver-spotlight">
+                <span class="section-label">Your Driver</span>
+                <div class="driver-profile-header">
+                    <div class="driver-avatar">{{ group.driver.user.first_name|slice:":1" }}</div>
+                    <div>
+                        <h4>{{ group.driver.user.first_name }} {{ group.driver.user.last_name }}</h4>
+                        <p class="neighborhood-tag">📍 {{ group.driver.neighborhood }}</p>
+                    </div>
+                </div>
+                
+                <div class="driver-trust-metrics">
+                    {% if group.driver.is_verified %}
+                        <div class="trust-pill verified">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                            Background Verified
+                        </div>
+                    {% else %}
+                        <div class="trust-pill pending">Verification Pending</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Booking Management Control Block -->
+            <div class="detail-card booking-widget">
+                <span class="section-label">Availability Status</span>
+                <div class="seat-counter-row">
+                    <span class="huge-counter">{{ group.passengers.count }} / {{ group.max_capacity }}</span>
+                    <span class="counter-label">Seats<br>Reserved</span>
+                </div>
+
+                {% if is_member %}
+                    <!-- If already joined, show a clean, non-clickable confirmation state -->
+                    <div class="joined-status-badge">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        You are in this group
+                    </div>
+                {% elif group.passengers.count >= group.max_capacity %}
+                    <button class="btn-action-disabled" disabled>Carpool Capacity Full</button>
+                {% else %}
+                    <!-- POSTs directly back to the same view url path dynamically -->
+                    <form action="{% url 'carpool:group_details' group.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-primary-action-fill">Request to Join Group</button>
+                    </form>
+                {% endif %}
+                <p class="disclaimer-text">Joining requests notify the driver parent for confirmation approval safety checks.</p>
+            </div>
+        </aside>
+    </div>
+</div>
+{% endblock %}

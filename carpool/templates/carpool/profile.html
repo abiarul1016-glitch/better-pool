@@ -1,0 +1,137 @@
+{% extends 'carpool/layout.html' %}
+
+{% block title %}My Profile - Betterpool{% endblock %}
+
+{% block body %}
+<div class="profile-container">
+    
+    <!-- Profile Grid Layout -->
+    <div class="profile-grid">
+        
+        <!-- Left Sidebar: Parent Details & Account Overview -->
+        <aside class="profile-sidebar">
+            <div class="profile-card parent-hero-card">
+                <div class="profile-avatar-large">
+                    {{ profile.user.first_name|slice:":1" }}{{ profile.user.last_name|slice:":1" }}
+                </div>
+                <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
+                <p class="neighborhood-sub">📍 {{ profile.neighborhood }}</p>
+                
+                <div class="verification-badge-zone">
+                    {% if profile.is_verified %}
+                        <div class="badge-status status-verified">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                            Verified Account
+                        </div>
+                    {% else %}
+                        <div class="badge-status status-pending">Verification Pending</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="profile-card contact-details-card">
+                <h3>Contact & Location</h3>
+                <div class="contact-row">
+                    <span class="contact-label">Email</span>
+                    <span class="contact-value">{{ profile.user.email }}</span>
+                </div>
+                <div class="contact-row">
+                    <span class="contact-label">Phone</span>
+                    <span class="contact-value">{{ profile.phone_number }}</span>
+                </div>
+                <div class="contact-row">
+                    <span class="contact-label">Home Address</span>
+                    <span class="contact-value location-text">{{ profile.home_address }}, {{ profile.city }}</span>
+                </div>
+                <a href="#" class="btn-secondary-action-outline">Edit Profile Settings</a>
+            </div>
+        </aside>
+
+        <!-- Right Main Column: Children & Carpool Groups -->
+        <main class="profile-main-panels">
+            
+            <!-- Section: Managed Children Profiles -->
+            <section class="profile-section-block">
+                <div class="section-header-inline">
+                    <h3>Registered Children</h3>
+                    <a href="#" class="add-action-link">+ Add Child</a>
+                </div>
+                <div class="children-horizontal-grid">
+                    {% for child in children %}
+                        <div class="child-profile-pill">
+                            <div class="child-icon">🧒</div>
+                            <div class="child-text">
+                                <h4>{{ child.first_name }}</h4>
+                                <p>Age {{ child.age }} &bull; {{ child.school.name }}</p>
+                                {% if child.program_enrolled %}
+                                    <span class="program-tag">{{ child.program_enrolled }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="panel-empty-state">
+                            <p>No children linked to your account yet.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Section: Driving Schedule Schedules -->
+            <section class="profile-section-block">
+                <h3>Carpools You are Driving</h3>
+                <div class="groups-stack-list">
+                    {% for group in driving_groups %}
+                        <div class="group-strip-card">
+                            <div class="strip-meta">
+                                <h4>{{ group.name }}</h4>
+                                <p>Destination: <strong>{{ group.school.name }}</strong></p>
+                            </div>
+                            <div class="strip-times">
+                                <span>🌅 {{ group.pickup_time|time:"g:i A" }}</span>
+                                <span>🏫 {{ group.dropoff_time|time:"g:i A" }}</span>
+                            </div>
+                            <div class="strip-actions">
+                                <span class="capacity-micro-indicator">{{ group.passengers.count }}/{{ group.max_capacity }} Filled</span>
+                                <a href="{% url 'carpool:group_detail' group.id %}" class="btn-minimal-chevron">Manage &rarr;</a>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="panel-empty-state">
+                            <p>You aren't managing or driving any carpool schedules right now.</p>
+                            <a href="#" class="link-action-text">Create a driver group</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Section: Joined Passenger Schedules -->
+            <section class="profile-section-block">
+                <h3>Joined Carpool Groups</h3>
+                <div class="groups-stack-list">
+                    {% for group in joined_carpools %}
+                        <div class="group-strip-card">
+                            <div class="strip-meta">
+                                <h4>{{ group.name }}</h4>
+                                <p>Driver: {{ group.driver.user.first_name }} {{ group.driver.user.last_name }}</p>
+                            </div>
+                            <div class="strip-times">
+                                <span>🌅 {{ group.pickup_time|time:"g:i A" }}</span>
+                                <span>🏫 {{ group.dropoff_time|time:"g:i A" }}</span>
+                            </div>
+                            <div class="strip-actions">
+                                <a href="{% url 'carpool:group_detail' group.id %}" class="btn-minimal-chevron">View View &rarr;</a>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="panel-empty-state">
+                            <p>You haven't joined any neighborhood carpool routes yet.</p>
+                            <a href="{% url 'carpool:index' %}" class="link-action-text">Find a community</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+        </main>
+    </div>
+</div>
+{% endblock %}

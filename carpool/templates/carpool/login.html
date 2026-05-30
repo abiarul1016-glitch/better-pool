@@ -1,0 +1,20 @@
+{% extends 'carpool/layout.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <!-- Display form validation or authentication errors -->
+        {% if form.errors %}
+            <p style="color: red;">Your username and password didn't match. Please try again.</p>
+        {% endif %}
+
+        <!-- Render the username and password fields -->
+        {{ form.as_p }}
+
+        <button type="submit">Login</button>
+    </form>
+{% endblock %}
