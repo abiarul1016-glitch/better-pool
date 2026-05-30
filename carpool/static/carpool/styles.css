@@ -368,6 +368,39 @@
         gap: 24px;
     }
 
+    /* SEARCH RESULTS HEADER */
+    /* Enhanced Search Results Header Typography */
+    .search-title {
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        color: var(--text-primary);
+        line-height: 1.25;
+        margin-top: 8px;
+    }
+
+    /* Gives custom emphasis to the parameters passed down by the search engine view */
+    .search-title .highlight {
+        font-weight: 700;
+        color: #000000;
+        /* Soft underlined design element mimicking Apple editorial pages */
+        background: linear-gradient(180deg, transparent 75%, var(--border-color) 75%);
+    }
+
+    .results-meta {
+        font-size: 15px;
+        color: var(--text-secondary);
+        margin-top: 8px;
+    }
+
+    /* Mobile scaling correction */
+    @media (max-width: 600px) {
+        .search-title {
+            font-size: 24px;
+        }
+    }
+
+
     /* Individual Card Structural Elements */
     .carpool-card {
         background-color: var(--bg-color);
@@ -1127,5 +1160,250 @@
             justify-content: space-between;
             border-top: 1px solid var(--border-color);
             padding-top: 10px;
+        }
+    }
+
+/* DASHBOARD */
+    /* Dashboard Main Container Structure */
+    .dashboard-container {
+        max-width: 1024px;
+        margin: 0 auto;
+        animation: slideUpIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 24px;
+        margin-bottom: 32px;
+        gap: 16px;
+    }
+
+    .welcome-meta h1 {
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+    }
+
+    .welcome-meta p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 4px;
+    }
+
+    .sub-section-title {
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        margin-bottom: 20px;
+    }
+
+    /* Children Stack Structure Cards */
+    .children-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .child-dashboard-card {
+        background-color: var(--bg-color);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    /* Child Header Strip banner block */
+    .child-hero-strip {
+        background-color: var(--accent-hover);
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .child-avatar-circle {
+        width: 40px;
+        height: 40px;
+        background-color: var(--bg-color);
+        border: 1px solid var(--border-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+    }
+
+    .child-identity-text h3 {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .school-meta-text {
+        font-size: 13px;
+        color: var(--text-secondary);
+    }
+
+    .pill-program-tag {
+        margin-left: auto; /* Pushes the program tag cleanly to the right side edge */
+        background-color: var(--bg-color);
+        border: 1px solid var(--border-color);
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 500;
+    }
+
+    /* Active Pool Sub-row listings inside cards */
+    .active-pool-row {
+        padding: 24px;
+        display: grid;
+        grid-template-columns: 1fr 280px auto;
+        align-items: center;
+        gap: 24px;
+    }
+
+    /* Separate consecutive pool blocks cleanly if multiple apply */
+    .active-pool-row + .active-pool-row {
+        border-top: 1px solid var(--border-color);
+    }
+
+    .pool-indicator-badge {
+        display: inline-block;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        background-color: #f5f5f7;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+    .pool-main-details h4 {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .driver-credit {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin-top: 2px;
+    }
+
+    /* Timing layout architecture boxes */
+    .pool-time-blocks {
+        display: flex;
+        gap: 24px;
+    }
+
+    .time-block {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .time-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        color: var(--text-secondary);
+    }
+
+    .time-value {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-primary);
+    }
+
+    /* Button variants layout styles */
+    .btn-secondary-pill {
+        background-color: var(--accent-hover);
+        color: var(--text-primary);
+        padding: 8px 16px;
+        border-radius: 980px;
+        font-size: 13px;
+        font-weight: 500;
+        border: 1px solid transparent;
+        transition: all 0.2s ease;
+    }
+
+    .btn-secondary-pill:hover {
+        background-color: var(--bg-color);
+        border-color: var(--text-primary);
+    }
+
+    /* Fallback inner state components rows if empty */
+    .pool-empty-row {
+        padding: 32px 24px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 14px;
+    }
+
+    .inline-search-link {
+        display: inline-block;
+        margin-top: 6px;
+        font-weight: 500;
+        color: var(--text-primary);
+        text-decoration: underline;
+    }
+
+    /* Master full screen empty container layouts */
+    .dashboard-empty-state {
+        border: 1px dashed var(--border-color);
+        border-radius: 20px;
+        padding: 60px 24px;
+        text-align: center;
+    }
+
+    .empty-emoji {
+        font-size: 40px;
+        margin-bottom: 12px;
+    }
+
+    .dashboard-empty-state h3 {
+        font-size: 18px;
+        margin-bottom: 4px;
+    }
+
+    .dashboard-empty-state p {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+
+    /* Entry Transitions */
+    @keyframes slideUpIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mobile Layout Transformations Breakpoints */
+    @media (max-width: 768px) {
+        .dashboard-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .dashboard-header .btn-primary-action {
+            width: 100%;
+            text-align: center;
+        }
+        .active-pool-row {
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+        .pool-time-blocks {
+            justify-content: space-between;
+            background-color: var(--accent-hover);
+            padding: 12px;
+            border-radius: 12px;
+        }
+        .btn-secondary-pill {
+            display: block;
+            text-align: center;
+            width: 100%;
         }
     }

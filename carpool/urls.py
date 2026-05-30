@@ -11,4 +11,5 @@ urlpatterns = [
     path("login", views.login_user, name="login"),
     path("profile", views.profile_view, name="profile"),
     path("carpool-group/<int:group_id>", views.group_details, name="group_details"),
+    path('dashboard', views.dashboard_view, name='dashboard')
 ]

@@ -203,3 +203,29 @@ def group_details(request, group_id):
             "is_member": is_member,
         },
     )
+
+@login_required
+def dashboard_view(request):
+    parent_profile = request.user.parent_profile
+
+    # Fetch all children belonging to this parent, prefetching their school details
+    children = Child.objects.filter(parent=parent_profile).select_related('school')
+    
+    # Build a clean data dictionary to map carpools to each child inside the template
+    # A child is in a group if their parent profile is in group.passengers 
+    # AND group.school matches child.school
+    children_data = []
+    for child in children:
+        # Find carpools where this parent is a passenger for this child's school
+        assigned_pools = child.school.carpools.filter(passengers=parent_profile)
+        
+        children_data.append({
+            "child": child,
+            "carpools": assigned_pools
+        })
+
+    context = {
+        "parent_profile": parent_profile,
+        "children_data": children_data,
+    }
+    return render(request, "carpool/dashboard.html", context)
