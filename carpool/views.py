@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect, render
@@ -93,8 +94,26 @@ def login_user(request):
     return render(request, "carpool/login.html", {"form": form})
 
 
-def profile(request):
-    pass
+@login_required
+def profile_view(request):
+    try:
+        profile = request.user.parent_profile
+    except ParentProfile.DoesNotExist:
+        # If they haven't finished setting up their profile data yet
+        return redirect("carpool:profile_setup")
+
+    # Prefetch related data for clean template iteration
+    children = profile.children.all()
+    driving_groups = profile.driving_groups.all()
+    joined_carpools = profile.joined_carpools.all()
+
+    context = {
+        "profile": profile,
+        "children": children,
+        "driving_groups": driving_groups,
+        "joined_carpools": joined_carpools,
+    }
+    return render(request, "carpool/profile.html", context)
 
 
 def group_details(request, group_id):
