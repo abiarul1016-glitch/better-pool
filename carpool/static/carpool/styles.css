@@ -1,0 +1,172 @@
+/* Custom properties for easy theme management */
+:root {
+    --bg-color: #ffffff;
+    --text-primary: #1d1d1f;
+    --text-secondary: #86868b;
+    --border-color: #e8e8ed;
+    --accent-hover: #f5f5f7;
+    --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Global Reset & Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-system);
+    font-size: 16px;
+    line-height: 1.47059;
+    letter-spacing: -0.022em;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Typography elements */
+h1, h2, h3, h4 {
+    font-weight: 600;
+    letter-spacing: -0.025em;
+}
+
+a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--text-secondary);
+}
+
+ul {
+    list-style: none;
+}
+
+/* Header & Navigation Blueprint */
+header {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+}
+
+nav {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 0 22px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+}
+
+nav ul {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+}
+
+nav ul li {
+    color: var(--text-primary);
+}
+
+/* Dynamic handling for links vs text strings inside nav */
+nav ul li a {
+    color: var(--text-secondary);
+}
+
+nav ul li a:hover {
+    color: var(--text-primary);
+}
+
+/* Main Content Wrapper */
+main {
+    flex: 1;
+    max-width: 1024px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px 22px;
+}
+
+/* Apple-style Form Components (For your login/signup views later) */
+input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: var(--font-system);
+    background-color: var(--accent-hover);
+    color: var(--text-primary);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+input:focus {
+    border-color: var(--text-primary);
+    background-color: var(--bg-color);
+}
+
+button, .btn-primary {
+    background-color: var(--text-primary);
+    color: var(--bg-color);
+    padding: 12px 24px;
+    border-radius: 980px; /* Perfectly round pill button style */
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button:hover, .btn-primary:hover {
+    background-color: #000000;
+    opacity: 0.9;
+}
+
+/* Footer Section */
+footer {
+    background-color: var(--accent-hover);
+    border-top: 1px solid var(--border-color);
+    padding: 32px 22px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+footer p {
+    max-width: 1024px;
+    margin: 0 auto 16px auto;
+    line-height: 1.33338;
+}
+
+footer nav {
+    padding: 0;
+    height: auto;
+    border: none;
+}
+
+footer nav ul {
+    justify-content: flex-start;
+    gap: 24px;
+}
+
+footer nav ul li a {
+    color: var(--text-secondary);
+}
+
+footer nav ul li a:hover {
+    text-decoration: underline;
+    color: var(--text-primary);
+}

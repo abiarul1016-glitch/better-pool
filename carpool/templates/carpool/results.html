@@ -1,0 +1,14 @@
+{% extends 'carpool/layout.html' %}
+
+{% block body %}
+    <ul>
+        {% for result in carpool_groups %}
+            <h2>result</h2>
+
+        {% empty %}
+            <h2>No drivers serving this area! Be the <a href="">first</a> one!</h2>
+    
+        {% endfor %}
+    </ul>
+
+{% endblock %}

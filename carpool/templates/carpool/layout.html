@@ -1,0 +1,46 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'carpool/styles.css' %}">
+
+    <title>{% block title %}Betterpool{% endblock %}</title>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li>Home</li>
+                <li>About</li>
+                <li>Signup as a driver</li>
+                
+                {% if user.is_authenticated %}
+                    <li>Logged in as {{ user.username }}</li>
+                {% else %}
+                    <li>Login/Signup</li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block body %}
+
+        {% endblock %}
+    </main>
+
+    <footer>
+        <ul>
+            <li>With ❤️ from the team at Betterpool</li>
+            <li>Report</li>
+            <li>Contact</li>
+        </ul>
+    </footer>
+    
+</body>
+</html>

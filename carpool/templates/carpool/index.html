@@ -1,0 +1,12 @@
+{% extends 'carpool/layout.html' %}
+
+{% block body %}
+    <h1>Hey Parent 👋🏼</h1>
+    <h2>Betterpool is the better way to find carpool opportunities for your kid!</h2>
+
+    <form action="{% url 'carpool:search' %}" method="get">
+        <input type="text" name="neighbourhood" placeholder="Neighbourhood">
+        <input type="submit" value="Find Communities">
+    </form>
+    
+{% endblock %}
